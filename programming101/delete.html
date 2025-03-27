@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .form-container {
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 5px;
+            width: 300px;
+            text-align: center;
+        }
+        .form-container input {
+            width: 95%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .form-container button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .form-container button:hover {
+            background-color: #45a049;
+        }
+        .message {
+            margin-top: 10px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2>Register</h2>
+        <form id="registrationForm">
+            <input type="text" id="username" placeholder="Enter Username" required>
+            <button type="button" onclick="checkRegistration()">Delete Account</button>
+            <p class="message" id="message"></p>
+        </form>
+    </div>
+    <script>
+        async function checkRegistration() {
+            const username = document.getElementById('username').value;
+            const messageElement = document.getElementById('message');
+
+            // Prepare data to send to API
+            const requestData = {
+                username: username,
+            };
+
+            try {
+                // Send DELETE request to API endpoint
+                const response = await fetch('http://localhost:3000/www.bscs32a.com/user/deleteUser', {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(requestData),
+                });
+
+                // Check the Content-Type to handle the response properly
+                const contentType = response.headers.get("Content-Type");
+
+                // Try parsing as JSON first
+                let responseData = null;
+                if (contentType && contentType.includes("application/json")) {
+                    try {
+                        responseData = await response.json();
+                    } catch (jsonError) {
+                        console.error('Error parsing JSON:', jsonError);
+                    }
+                }
+
+                // If responseData is still null, try reading as plain text
+                if (!responseData) {
+                    responseData = await response.text();
+                }
+
+                // Check if the response is OK (status code 200-299)
+                if (response.ok) {
+                    messageElement.style.color = 'green';
+                    messageElement.textContent = typeof responseData === 'string' ? responseData : responseData.message || 'Account Deleted!';
+                } else {
+                    // Handle non-OK responses
+                    messageElement.style.color = 'red';
+                    messageElement.textContent = typeof responseData === 'string' ? responseData : responseData.message || 'Deletion failed. Try again.';
+                }
+            } catch (error) {
+                // If there is any issue during the fetch (network, etc.), show an error
+                console.error('Error:', error);
+                messageElement.style.color = 'red';
+                messageElement.textContent = 'Error sending request. Please try again later.';
+            }
+        }
+    </script>
+</body>
+</html>

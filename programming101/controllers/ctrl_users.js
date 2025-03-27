@@ -57,9 +57,16 @@ const deleteUser = async (req, res) => {
   // console.log(data);
   // check if user exist
   const checkUser = await Users.findOne({ username: data.username });
-  if (!checkUser) return res.status(404).send('User not found');
-  let user = await Users.deleteOne({ username: data.username });
-  res.status(200).send('User Deleted');
+  if (checkUser)
+    {
+      let user = await Users.deleteOne({ username: data.username });
+      res.status(200).send('User Deleted');
+      
+    } 
+  else{
+    return res.status(404).send('User not found');
+  }
+ 
 };
 
 const updateUser = async (req, res) => {
