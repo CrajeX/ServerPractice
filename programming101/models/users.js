@@ -37,6 +37,7 @@ const userSchema = new mongoose.Schema({
             required: true,
         },
     });
+    // Create a method inside the model to be called
     userSchema.methods.isMatch = async function (password) {
         return await bcrypt.compare(password, this.password);
     };
