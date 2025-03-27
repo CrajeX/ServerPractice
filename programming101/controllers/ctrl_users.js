@@ -21,10 +21,11 @@ const signUser = async (req, res) => {
 
     // 3. Compare the candidate password with the stored hash
     // --> Used built in method from the model
+    const isMatch = await checkUser.isMatch(data.password);
     // --->release Data
     // ---->release message
     // ----->Release token
-    const isMatch = await checkUser.isMatch(data.password);
+
 
     // 4. If passwords match, return success response
     if (isMatch) {
