@@ -1,5 +1,8 @@
 const { Users } = require('../models/users');
 const bcrypt = require('bcrypt');
+const {validateUser} = require('../validations/vld_users')
+
+
 
 // Look for the user and compare there inputed password hash it and compare it to the hashed password in the database
 const signUser = async (req, res) => {
@@ -36,6 +39,7 @@ const registerUser = async (req, res) => {
   const data = req.body;
   // // Gets the value of the database based on the filter (username)
   // const checkUser = await Users.findOne({username:data.username});
+  const {error}= validateUser(data)
   try {
       const checkUser = await Users.findOne({username:data.username})
       if(checkUser){
