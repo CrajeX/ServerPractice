@@ -52,7 +52,7 @@
             <input type="text" id="username" placeholder="Enter Username" required>
             <input type="password" id="password" placeholder="Enter Password" required>
             <input type="text" id="name" placeholder="Enter name" required>
-            <input type="email" id="email" placeholder="Enter email" required>
+            <input type="text" id="email" placeholder="Enter email" required>
             <input type="text" id="role" placeholder="Enter role" required>
             <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
             <button type="button" onclick="checkRegistration()">Register</button>
@@ -82,11 +82,12 @@
 
             // Prepare data to send to API
             const requestData = {
-                username: username,
-                password: password,
-                email:email,
+
                 name:name,
-                role:role
+                username: username,
+                email:email,
+                role:role,
+                password: password,   
             };
 
             try {
