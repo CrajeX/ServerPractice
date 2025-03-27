@@ -11,6 +11,13 @@ const validateUser = (user) => {
     const validate = schema.validate(user)
     return validate
 };
-
+const validateLogin = (login) =>{
+    const schema = Joi.object({
+        username:Joi.string().required(),
+        password:Joi.string().required(),
+    })
+    const validate = schema.validate(login)
+    return validate
+}
 module.exports.validateUser = validateUser;
-
+module.exports.validateLogin = validateLogin;
