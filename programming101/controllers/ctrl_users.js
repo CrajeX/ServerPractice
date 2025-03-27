@@ -20,7 +20,7 @@ const signUser = async (req, res) => {
     }
 
     // 3. Compare the candidate password with the stored hash
-    const isMatch = await bcrypt.compare(data.password, checkUser.password);
+    const isMatch = await checkUser.isMatch(data.password);
 
     // 4. If passwords match, return success response
     if (isMatch) {

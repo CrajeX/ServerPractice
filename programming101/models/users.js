@@ -37,6 +37,10 @@ const userSchema = new mongoose.Schema({
             required: true,
         },
     });
+    userSchema.methods.isMatch = async function (password) {
+        return await bcrypt.compare(password, this.password);
+    };
+
 
 const Users = mongoose.model('xUsers',userSchema);
 module.exports.Users = Users;
