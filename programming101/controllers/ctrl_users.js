@@ -46,22 +46,23 @@ const registerUser = async (req, res) => {
   try {
       const checkEmail = await Users.findOne({email:data.email})
       if(checkEmail){
-          return res.status(400).json({message: 'There has been an error for logging in'});
+          return res.status(400).json({message: 'Email already in use'});
       }
 
 
       const checkUser = await Users.findOne({email:data.email})
       if(checkUser){
-          return res.status(400).json({message: 'There has been an error for logging in'});
+          return res.status(400).json({message: 'Username already Exist'});
       }
 
 
-      
+     
       const newUser = new Users({
           name:data.name,
           username: data.username,
           email:data.email,
           role:data.role,
+           // transform password
           password: data.password = await bcrypt.hash(data.password, await bcrypt.genSalt(10))
       })
       await newUser.save();

@@ -51,6 +51,9 @@
         <form id="registrationForm">
             <input type="text" id="username" placeholder="Enter Username" required>
             <input type="password" id="password" placeholder="Enter Password" required>
+            <input type="text" id="name" placeholder="Enter name" required>
+            <input type="email" id="email" placeholder="Enter email" required>
+            <input type="text" id="role" placeholder="Enter role" required>
             <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
             <button type="button" onclick="checkRegistration()">Register</button>
             <p class="message" id="message"></p>
@@ -64,6 +67,9 @@
         async function checkRegistration() {
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
+            const email = document.getElementById('email').value;
+            const name = document.getElementById('name').value;
+            const role = document.getElementById('role').value;
             const confirmPassword = document.getElementById('confirmPassword').value;
             const messageElement = document.getElementById('message');
 
@@ -77,7 +83,10 @@
             // Prepare data to send to API
             const requestData = {
                 username: username,
-                password: password
+                password: password,
+                email:email,
+                name:name,
+                role:role
             };
 
             try {
