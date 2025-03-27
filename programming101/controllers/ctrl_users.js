@@ -39,14 +39,29 @@ const registerUser = async (req, res) => {
   const data = req.body;
   // // Gets the value of the database based on the filter (username)
   // const checkUser = await Users.findOne({username:data.username});
+  //CHECK USER
   const {error}= validateUser(data)
+  if (error)
+    return res.status(400).json({message:`${error.message}`})
   try {
-      const checkUser = await Users.findOne({username:data.username})
+      const checkEmail = await Users.findOne({email:data.email})
+      if(checkEmail){
+          return res.status(400).json({message: 'There has been an error for logging in'});
+      }
+
+
+      const checkUser = await Users.findOne({email:data.email})
       if(checkUser){
           return res.status(400).json({message: 'There has been an error for logging in'});
       }
+
+
+      
       const newUser = new Users({
+          name:data.name,
           username: data.username,
+          email:data.email,
+          role:data.role,
           password: data.password = await bcrypt.hash(data.password, await bcrypt.genSalt(10))
       })
       await newUser.save();
